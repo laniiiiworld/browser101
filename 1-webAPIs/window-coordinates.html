@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>윈도우 좌표 & 스크롤</title>
+    <style>
+      body {
+        background-color: black;
+        /* overflow: hidden; */
+      }
+      div {
+        background-color: lightblue;
+        width: 150px;
+        height: 150px;
+        margin-top: 10px;
+        border-radius: 4px;
+      }
+      .specialBox {
+        background-color: sandybrown;
+      }
+      ul {
+        position: sticky;
+        display: flex;
+        float: right;
+        top: 5px;
+      }
+      li {
+        list-style: none;
+        padding-left: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li><button id="btnScrollBy100">Scroll by 100px(y)</button></li>
+      <li><button id="btnScrollTo100">Scroll to 100px(y)</button></li>
+      <li><button id="btnIntoSpecial">Scroll into special</button></li>
+    </ul>
+    <main>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div class="specialBox"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </main>
+    <script>
+      {
+        const specialBox = document.querySelector('.specialBox');
+        const btnScrollBy100 = document.querySelector('#btnScrollBy100');
+        const btnScrollTo100 = document.querySelector('#btnScrollTo100');
+        const btnIntoSpecial = document.querySelector('#btnIntoSpecial');
+
+        //좌표 출력
+        specialBox.addEventListener('click', (event) => {
+          const rect = specialBox.getBoundingClientRect();
+          console.log(rect);
+          console.log(`client : (${event.clientX}, ${event.clientY})`);
+          console.log(`page : (${event.pageX}, ${event.pageY})`);
+        });
+
+        //100px씩 이동
+        btnScrollBy100.addEventListener('click', (event) => {
+          // window.scrollBy(0, 100);
+          window.scrollBy({ top: 100, left: 0, behavior: 'smooth' });
+        });
+
+        //어디에서 클릭하든 100px로 이동
+        btnScrollTo100.addEventListener('click', (event) => {
+          window.scrollTo(0, 100);
+        });
+
+        //어디에서 클릭하든 스페셜로 이동
+        btnIntoSpecial.addEventListener('click', (event) => {
+          specialBox.scrollIntoView();
+        });
+      }
+    </script>
+  </body>
+</html>
