@@ -1,0 +1,48 @@
+:root {
+  --body-background: black;
+  --point-color: snow;
+}
+body {
+  background-color: var(--body-background);
+  cursor: none;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-height: 900px;
+}
+div,
+span {
+  position: absolute;
+}
+.coordinates {
+  width: 120px;
+  font-size: 24px;
+  color: var(--point-color);
+  padding: 12px 8px;
+}
+
+.line {
+  background-color: var(--point-color);
+}
+
+.lineX {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+}
+
+.lineY {
+  width: 1px;
+  height: 100%;
+  min-height: 900px;
+  left: 50%;
+}
+
+.icon {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
