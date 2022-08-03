@@ -9,6 +9,7 @@ body {
   width: 100%;
   height: 100%;
   min-height: 900px;
+  margin: 0;
 }
 div,
 span {
@@ -28,21 +29,17 @@ span {
 .lineX {
   width: 100%;
   height: 1px;
-  top: 50%;
 }
 
 .lineY {
   width: 1px;
   height: 100%;
   min-height: 900px;
-  left: 50%;
 }
 
 .icon {
   position: absolute;
   width: 50px;
   height: 50px;
-  top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
 }
