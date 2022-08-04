@@ -1,0 +1,106 @@
+:root {
+  --body-background-color: whitesmoke;
+  --point-background-color: rgb(232, 83, 98);
+  --point-gradient-color: linear-gradient(351deg, rgba(232, 83, 98, 1) 0%, rgba(39, 21, 170, 1) 18%, rgba(125, 19, 174, 1) 46%, rgba(117, 21, 170, 1) 51%, rgba(39, 21, 170, 1) 78%, rgba(232, 83, 98, 1) 100%);
+  --list-background-color: lavender;
+  --point-color: snow;
+  --btn-hover-color: brown;
+
+  --font-size-large: 26px;
+  --font-size-medium: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+body {
+  font-family: 'Nanum Gothic', sans-serif;
+  background-color: var(--body-background-color);
+  overflow: hidden;
+}
+
+.list {
+  background-color: var(--list-background-color);
+  width: 300px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 4px 3px 5px 4px rgba(0, 0, 0, 0.63);
+}
+
+.header {
+  background: var(--point-background-color);
+  background: var(--point-gradient-color);
+  font-size: var(--font-size-large);
+  text-align: center;
+  padding: 4px 0;
+  color: var(--point-color);
+  border-radius: 10px 10px 0 0;
+}
+
+.items {
+  padding-top: 4px;
+  font-size: var(--font-size-medium);
+  overflow-y: auto;
+  height: 300px;
+}
+
+.item__row {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px 4px 12px;
+}
+
+.item__delete {
+  font-size: var(--font-size-medium);
+  transition: transform 200ms ese-in;
+}
+
+.item__delete:hover {
+  color: var(--btn-hover-color);
+  transform: scale(1.1);
+}
+
+.footer {
+  background: var(--point-background-color);
+  background: var(--point-gradient-color);
+  text-align: center;
+  border-radius: 0 0 10px 10px;
+}
+
+.footer__input {
+  width: 100%;
+  height: var(--font-size-large);
+  border: none;
+  outline: none;
+}
+
+.footer__btn {
+  background-color: var(--point-color);
+  border-radius: 4px;
+  margin: 4px 0;
+  transition: transform 200ms ese-in;
+}
+
+.footer__btn:hover {
+  transform: scale(1.1);
+  color: var(--btn-hover-color);
+}
+
+.footer__btn i {
+  font-size: var(--font-size-large);
+  margin: 4px 0;
+}
