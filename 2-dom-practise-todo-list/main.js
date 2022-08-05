@@ -1,4 +1,6 @@
 {
+  let id = 0; //item row별 고유 id. project가 커진다면 UUID로 변경 필요
+
   const items = document.querySelector('.items');
   const inputBox = document.querySelector('.footer__input');
   const btnAdd = document.querySelector('.footer__btn');
@@ -20,28 +22,19 @@
     //item row
     const newLi = document.createElement('li');
     newLi.setAttribute('class', 'item__row');
+    newLi.setAttribute('data-id', id);
 
-    //입력 텍스트
-    const newSpan = document.createElement('span');
-    const newText = document.createTextNode(`${text}`);
-    newSpan.appendChild(newText);
-    newSpan.setAttribute('class', 'item__name');
-    newLi.appendChild(newSpan);
-
-    //삭제 버튼
-    const newBtn = document.createElement('button');
-    newBtn.setAttribute('class', 'item__delete');
-    newBtn.innerHTML = '<i class="fa-regular fa-trash-can"></i>';
-    newLi.appendChild(newBtn);
-
+    newLi.innerHTML = `<span class="item__name">${text}</span>
+                       <button class="item__delete">
+                         <i class="fa-regular fa-trash-can" data-target-id=${id}></i>
+                       </button>`;
+    id++;
     return newLi;
   }
 
   //쇼핑 리스트 입력란 이벤트
   inputBox.addEventListener('keyup', (event) => {
-    if (event.keyCode === 13) {
-      onAddItemList();
-    }
+    if (event.keyCode === 13) onAddItemList();
   });
 
   //하단 추가 버튼 클릭 이벤트
@@ -51,8 +44,10 @@
 
   //쇼핑 리스트 아이템 삭제 이벤트
   items.addEventListener('click', (event) => {
-    const target = event.target;
-    if (target.tagName === 'I') items.removeChild(event.target.parentNode.parentNode);
-    if (target.tagName === 'BUTTON') items.removeChild(event.target.parentNode);
+    const deletedId = event.target.dataset.targetId;
+    if (deletedId) {
+      const tobeDeletedItem = document.querySelector(`.item__row[data-id="${deletedId}"]`);
+      tobeDeletedItem.remove();
+    }
   });
 }
