@@ -13,17 +13,18 @@
     <script src="main.js" defer></script>
   </head>
   <body>
-    <header class="header">
-      <button class="btn__stop"><i class="fa-solid fa-stop"></i></button>
-      <div class="header__timer">10:55</div>
-      <divs class="carrot__count">30</divs>
-    </header>
-    <section class="blockUI__section">
-      <div class="blockUI">
-        <button class="btn__play"><i class="fa-solid fa-play"></i></button>
-        <button class="btn__replay displayNone"><i class="fa-solid fa-reply"></i></button>
-        <div class="blockUI__messege">Are you ready?</div>
-      </div>
+    <section class="game">
+      <header class="game__header">
+        <button class="btn__stop"><i class="fa-solid fa-stop"></i></button>
+        <span class="game__timer">10:55</span>
+        <span class="game__score">30</span>
+      </header>
+      <section class="game__field"></section>
+    </section>
+    <section class="popup">
+      <button class="btn__play"><i class="fa-solid fa-play"></i></button>
+      <button class="btn__replay hide"><i class="fa-solid fa-reply"></i></button>
+      <div class="popup__message">Are you ready?</div>
     </section>
   </body>
 </html>

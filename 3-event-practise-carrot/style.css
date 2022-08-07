@@ -2,18 +2,19 @@
   --stop-btn-size: 50px;
   --play-btn-size: 50px;
   --timer-font-size: 50px;
-  --carrot-cnt-font-size: 50px;
+  --game-score-font-size: 50px;
 
+  --body-background-color: black;
   --btn-background-color: wheat;
   --timer-background-color: snow;
-  --carrot-cnt-background-color: salmon;
+  --game-score-background-color: darksalmon;
   --font-base-color: rgb(53, 42, 42);
   --font-point-color: snow;
 
   --block-ui-color: rgba(0, 0, 0, 0.7);
   --block-ui-background-color: rgba(0, 0, 0, 0.3);
 }
-.displayNone {
+.hide {
   display: none;
 }
 
@@ -27,6 +28,7 @@ button {
   background-color: var(--btn-background-color);
   border: 4px solid var(--font-base-color);
   color: var(--font-base-color);
+  transition: transform 100ms ease-in;
 }
 button:hover {
   transform: scale(1.1);
@@ -34,19 +36,33 @@ button:hover {
 
 body {
   font-family: 'Roboto', sans-serif;
-  margin: 0;
-  background-image: url('img/background.png');
-  background-size: 100%;
-  overflow-y: hidden;
+  background-color: var(--body-background-color);
 }
-.header {
-  z-index: 2;
+/*******************************************
+ * 게임
+ *******************************************/
+.game {
+  background: url('img/background.png') center/cover;
+  width: 800px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  border-radius: 10px;
+}
+/*********** 게임 header ***********/
+.game__header {
   text-align: center;
-  margin-top: 8px;
+
+  padding-top: 8px;
 }
-.header__timer {
+.btn__stop {
+  font-size: var(--stop-btn-size);
+}
+.game__timer {
   font-size: var(--timer-font-size);
   background-color: var(--timer-background-color);
+  display: block;
   width: 150px;
   text-align: center;
   border-radius: 8px;
@@ -54,9 +70,9 @@ body {
   padding: 2px 0;
   margin: 8px auto 16px auto;
 }
-.carrot__count {
-  font-size: var(--carrot-cnt-font-size);
-  background-color: var(--carrot-cnt-background-color);
+.game__score {
+  font-size: var(--game-score-font-size);
+  background-color: var(--game-score-background-color);
   color: var(--font-point-color);
   text-align: center;
   border-radius: 50%;
@@ -65,8 +81,25 @@ body {
   height: 60px;
   padding: 4px;
 }
-.btn__stop {
-  font-size: var(--stop-btn-size);
+/*********** 게임 field ***********/
+.game__field {
+  width: 100%;
+  height: 100%;
+  margin-top: 30px;
+  background-color: rgba(250, 250, 0, 0.3);
+}
+/*******************************************
+ * 팝업
+ *******************************************/
+.popup {
+  width: 450px;
+  background-color: var(--block-ui-color);
+  color: var(--font-point-color);
+  text-align: center;
+  padding: 16px;
+  border-radius: 16px;
+  margin: auto;
+  transform: translate(0, -150%);
 }
 .btn__play {
   font-size: var(--play-btn-size);
@@ -75,24 +108,6 @@ body {
   padding: 2px 8px;
   font-size: var(--play-btn-size);
 }
-.blockUI__section {
-  width: 100%;
-  height: 900px;
-  background-color: var(--block-ui-background-color);
-  transform: translate(0, -30%);
-}
-
-.blockUI {
-  width: 450px;
-  background-color: var(--block-ui-color);
-  color: var(--font-point-color);
-  text-align: center;
-  padding: 16px;
-  border-radius: 16px;
-  margin: auto;
-  transform: translate(0, 500px);
-}
-
-.blockUI__messege {
+.popup__message {
   font-size: var(--play-btn-size);
 }
