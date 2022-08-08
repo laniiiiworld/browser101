@@ -4,7 +4,7 @@
   --timer-font-size: 50px;
   --game-score-font-size: 50px;
 
-  --body-background-color: black;
+  --body-background-color: rgba(0, 0, 0);
   --btn-background-color: wheat;
   --timer-background-color: snow;
   --game-score-background-color: darksalmon;
@@ -68,29 +68,43 @@ body {
   border-radius: 8px;
   border: 4px solid var(--font-base-color);
   padding: 2px 0;
-  margin: 8px auto 16px auto;
+  margin: 4px auto 4px auto;
 }
 .game__score {
   font-size: var(--game-score-font-size);
   background-color: var(--game-score-background-color);
   color: var(--font-point-color);
+  display: block;
   text-align: center;
   border-radius: 50%;
   border: 4px solid var(--font-base-color);
-  width: 60px;
-  height: 60px;
-  padding: 4px;
+  width: 70px;
+  height: 70px;
+  margin: 4px auto 4px auto;
 }
 /*********** 게임 field ***********/
 .game__field {
   width: 100%;
   height: 100%;
   margin-top: 30px;
-  background-color: rgba(250, 250, 0, 0.3);
+  /* background-color: rgba(36, 36, 36, 0.3); */
+}
+.game__field__img {
+  position: absolute;
+  transition: transform 100ms ease-in;
+}
+.game__field__img:hover {
+  transform: scale(1.1);
 }
 /*******************************************
  * 팝업
  *******************************************/
+.popup__background {
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 810px;
+  height: 500px;
+  transform: translate(37%, -100%);
+}
 .popup {
   width: 450px;
   background-color: var(--block-ui-color);
@@ -99,7 +113,7 @@ body {
   padding: 16px;
   border-radius: 16px;
   margin: auto;
-  transform: translate(0, -150%);
+  transform: translate(0, 150%);
 }
 .btn__play {
   font-size: var(--play-btn-size);
