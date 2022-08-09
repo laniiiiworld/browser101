@@ -1,7 +1,16 @@
 {
-  let nIntervId;
-  let isStopped = false;
-  const popupMsg = { INIT: 'Are you ready?', WIN: 'You win!🥳', LOSE: 'You lose.🥲', PAUSE: 'Game stopped.⛔️' };
+  ('use-strict');
+
+  const popupMsg = { LOAD: 'Are you ready?', WIN: 'You won!🥳', LOSE: 'You lost.🥲', PAUSE: 'Game stopped.⛔️' };
+  const CARROT_BUG_SIZE = 80; //당근과 벌레 이미지 사이즈(px)
+  const GAME_DURATION_SEC = 30; //타이머 제한 시간(초)
+  const CARROT_CNT = 15;
+  const BUG_CNT = 10;
+
+  let nIntervId; //타이머
+  let showedPopup = true; //팝업이 떠있는지 여부
+  let isPaused = false; //중지버튼 클릭여부
+
   const btnStop = document.querySelector('.btn__stop i');
   const btnReplay = document.querySelector('.btn__replay i');
   const btnPlay = document.querySelector('.btn__play i');
@@ -12,44 +21,73 @@
   const popup = document.querySelector('.popup');
   const popup__message = document.querySelector('.popup__message');
 
-  /***********************************************
-   * 초기설정
-   ***********************************************/
-  //시작, replay버튼 클릭시 옵션 초기화
-  function fnInitOption() {
-    const carrotCnt = 15;
-    const bugCnt = 10;
-    fnDisplayRandomeCarrotAndBug(carrotCnt, bugCnt);
-    fnSetTimer(30);
-    gameScore.innerText = carrotCnt;
-  }
+  const alert_sound = new Audio('sound/alert.wav');
+  const carrot_sound = new Audio('sound/carrot_pull.mp3');
+  const win_sound = new Audio('sound/game_win.mp3');
+  const bug_sound = new Audio('sound/bug_pull.mp3');
+  const bg_sound = new Audio('sound/bg.mp3');
+  bg_sound.loop = true; // 반복재생
 
+  /***********************************************
+   * 게임 초기설정, 시작, 멈춤
+   ***********************************************/
+  //게임 시작 준비
+  function fnInitGame(msgKey) {
+    if (msgKey !== 'LOAD') {
+      let gameFieldHtml = '';
+      gameFieldHtml += fnMakeItem('carrot', CARROT_CNT, 'img/carrot.png');
+      gameFieldHtml += fnMakeItem('bug', BUG_CNT, 'img/bug.png');
+      gameField.innerHTML = gameFieldHtml;
+    }
+
+    fnSetTimer(GAME_DURATION_SEC);
+    gameScore.innerText = CARROT_CNT;
+  }
+  //게임 시작
+  function fnStartGame(currentTime) {
+    playSound(alert_sound);
+
+    showedPopup = false;
+    popupBackground.classList.add('hide');
+    fnStartTimer();
+
+    playSound(bg_sound, currentTime);
+  }
+  //게임 멈춤
+  function fnStopGame(msgKey) {
+    if (msgKey === 'PAUSE') {
+      isPaused = true;
+      playSound(alert_sound);
+    } else if (msgKey === 'LOSE') {
+      playSound(bug_sound);
+    } else if (msgKey === 'WIN') {
+      playSound(win_sound);
+    }
+    bg_sound.pause();
+
+    fnStopTimer(nIntervId);
+    fnShowPopup(msgKey);
+  }
   /***********************************************
    * 당근과 벌레 그리기
    ***********************************************/
-  //당근과 벌레 랜덤으로 화면에 display
-  function fnDisplayRandomeCarrotAndBug(carrotCnt, bugCnt) {
-    let gameFieldHtml = '';
+  //아이템(당근과 벌레) 들판에 추가하기
+  function fnMakeItem(dataId, count, imgPath) {
+    let html = '';
     const rect = gameField.getBoundingClientRect();
-    while (carrotCnt > 0) {
-      const x = getRandomIntInclusive(rect.top, rect.bottom);
-      const y = getRandomIntInclusive(rect.left, rect.right);
-      gameFieldHtml += `<img src="img/carrot.png" alt="당근" data-id='carrot' class='game__field__img' style='top:${x}px;left:${y}px;' />`;
-      carrotCnt--;
+    while (count > 0) {
+      const x = getRandomIntInclusive(0, rect.width);
+      const y = getRandomIntInclusive(0, rect.height);
+      const itemStyle = `top:${y}px;left:${x}px;`;
+      html += `<img src="${imgPath}" alt="${dataId}" data-id='${dataId}' class='game__field__img' style='${itemStyle}' />`;
+      count--;
     }
-    while (bugCnt > 0) {
-      const x = getRandomIntInclusive(rect.top, rect.bottom);
-      const y = getRandomIntInclusive(rect.left, rect.right);
-      gameFieldHtml += `<img src="img/bug.png" alt="벌레" data-id='bug' class='game__field__img' style='top:${x}px;left:${y}px;' />`;
-      bugCnt--;
-    }
-    gameField.innerHTML = gameFieldHtml;
+    return html;
   }
   //주어진 두 값 사이의 난수를 생성
   function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max) - 80;
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    max = max - CARROT_BUG_SIZE;
+    return Math.random() * (max - min) + min;
   }
   /***********************************************
    * 타이머
@@ -62,27 +100,29 @@
   }
   //timer 시작 함수
   function fnStartTimer() {
-    isStopped = false;
+    isPaused = false;
     let time = gameTimer.innerText.split(':');
     time = Number(time[0]) * 60 + Number(time[1]);
 
     nIntervId = setInterval(() => {
       time--;
       fnSetTimer(time);
-      if (time < 1) fnStopTimer(nIntervId, 'LOSE');
+      if (time < 1) {
+        fnStopGame('LOSE');
+      }
     }, 1000);
   }
   //timer를 멈추는 함수
-  function fnStopTimer(nIntervId, msgKey) {
+  function fnStopTimer(nIntervId) {
     clearInterval(nIntervId);
-    fnShowPopup(msgKey);
   }
   /***********************************************
    * 팝업
    ***********************************************/
-
   //popup을 보여주는 함수
   function fnShowPopup(msgKey) {
+    showedPopup = true;
+
     if (msgKey === 'WIN' || msgKey === 'LOSE') {
       btnReplay.parentNode.classList.remove('hide');
       btnPlay.parentNode.classList.add('hide');
@@ -93,43 +133,54 @@
     popup__message.innerText = popupMsg[`${msgKey}`];
     popupBackground.classList.remove('hide');
   }
-
+  /***********************************************
+   * 오디오
+   ***********************************************/
+  //오디오 실행
+  function playSound(sound, currentTime) {
+    if (!currentTime) sound.currentTime = 0;
+    sound.play();
+  }
   /***********************************************
    * 이벤트
    ***********************************************/
   //당근, 벌레 클릭 이벤트
   gameField.addEventListener('click', (event) => {
+    if (showedPopup) return;
+
     const targetId = event.target.dataset.id;
+
     if (targetId === 'carrot') {
+      playSound(carrot_sound);
       event.target.remove();
       gameScore.innerText = Number(gameScore.textContent) - 1;
-      if (Number(gameScore.textContent) === 0) fnStopTimer(nIntervId, 'WIN');
+      if (Number(gameScore.textContent) === 0) fnStopGame('WIN');
     } else if (targetId === 'bug') {
       event.target.remove();
-      fnStopTimer(nIntervId, 'LOSE');
+      fnStopGame('LOSE');
     }
   });
   //멈춤 버튼 클릭 이벤트
   btnStop.addEventListener('click', () => {
-    isStopped = true;
-    fnStopTimer(nIntervId, 'PAUSE');
+    fnStopGame('PAUSE');
   });
   //시작 버튼 클릭 이벤트
   btnPlay.addEventListener('click', () => {
-    if (!isStopped) fnInitOption();
-    popupBackground.classList.add('hide');
-    fnStartTimer();
+    if (!isPaused) {
+      fnInitGame();
+      fnStartGame();
+    } else {
+      fnStartGame('NONE');
+    }
   });
   //replay 버튼 클릭 이벤트
   btnReplay.addEventListener('click', () => {
-    fnInitOption();
-    popupBackground.classList.add('hide');
-    fnStartTimer();
+    fnInitGame();
+    fnStartGame();
   });
   //load Event
   window.addEventListener('load', () => {
-    fnSetTimer(30);
-    gameScore.innerText = 10;
-    fnShowPopup('INIT');
+    fnInitGame('LOAD');
+    fnShowPopup('LOAD');
   });
 }

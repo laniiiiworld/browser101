@@ -37,6 +37,7 @@ button:hover {
 body {
   font-family: 'Roboto', sans-serif;
   background-color: var(--body-background-color);
+  overflow-y: hidden;
 }
 /*******************************************
  * 게임
@@ -69,6 +70,8 @@ body {
   border: 4px solid var(--font-base-color);
   padding: 2px 0;
   margin: 4px auto 4px auto;
+  user-select: none;
+  cursor: auto;
 }
 .game__score {
   font-size: var(--game-score-font-size);
@@ -81,9 +84,12 @@ body {
   width: 70px;
   height: 70px;
   margin: 4px auto 4px auto;
+  user-select: none;
+  cursor: auto;
 }
 /*********** 게임 field ***********/
 .game__field {
+  position: relative;
   width: 100%;
   height: 100%;
   margin-top: 30px;
@@ -101,9 +107,9 @@ body {
  *******************************************/
 .popup__background {
   background-color: rgba(0, 0, 0, 0.3);
-  width: 810px;
+  width: 100%;
   height: 500px;
-  transform: translate(37%, -100%);
+  transform: translate(0, -100%);
 }
 .popup {
   width: 450px;
