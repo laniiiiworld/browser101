@@ -1,3 +1,5 @@
+'use-strict';
+
 const popupMsg = { LOAD: 'Are you ready?', WIN: 'You won!🥳', LOSE: 'You lost.🥲', PAUSE: 'Game stopped.⛔️' };
 
 export default class PopUp {
