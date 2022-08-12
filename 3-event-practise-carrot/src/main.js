@@ -2,6 +2,7 @@
 
 import PopUp from './popup.js';
 import GameField from './gameField.js';
+import * as sound from './sound.js';
 
 const GAME_DURATION_SEC = 30; //타이머 제한 시간(초)
 const CARROT_CNT = 15;
@@ -14,13 +15,6 @@ let isPaused = false; //중지버튼 클릭여부
 const btnStop = document.querySelector('.btn__stop i');
 const gameTimer = document.querySelector('.game__timer');
 const gameScore = document.querySelector('.game__score');
-
-const alert_sound = new Audio('sound/alert.wav');
-const carrot_sound = new Audio('sound/carrot_pull.mp3');
-const win_sound = new Audio('sound/game_win.mp3');
-const bug_sound = new Audio('sound/bug_pull.mp3');
-const bg_sound = new Audio('sound/bg.mp3');
-bg_sound.loop = true; // 반복재생
 
 const gameStopBanner = new PopUp();
 const gameField = new GameField();
@@ -37,25 +31,25 @@ function fnInitGame(msgKey) {
 }
 //게임 시작
 function fnStartGame(currentTime) {
-  playSound(alert_sound);
+  sound.playAlert();
 
   showedPopup = false;
   gameStopBanner.hide();
   fnStartTimer();
 
-  playSound(bg_sound, currentTime);
+  sound.playBackground(currentTime);
 }
 //게임 멈춤
 function fnStopGame(msgKey) {
   if (msgKey === 'PAUSE') {
     isPaused = true;
-    playSound(alert_sound);
+    sound.playAlert();
   } else if (msgKey === 'LOSE') {
-    playSound(bug_sound);
+    sound.playBug();
   } else if (msgKey === 'WIN') {
-    playSound(win_sound);
+    sound.playWin();
   }
-  bg_sound.pause();
+  sound.stopBackground();
 
   fnStopTimer(nIntervId);
   gameStopBanner.showWithText(msgKey);
@@ -90,14 +84,6 @@ function fnStopTimer(nIntervId) {
   clearInterval(nIntervId);
 }
 /***********************************************
- * 오디오
- ***********************************************/
-//오디오 실행
-function playSound(sound, currentTime) {
-  if (!currentTime) sound.currentTime = 0;
-  sound.play();
-}
-/***********************************************
  * 이벤트
  ***********************************************/
 //당근, 벌레 클릭 이벤트
@@ -107,7 +93,7 @@ gameField.setClickEventListener((event) => {
   const targetId = event.target.dataset.id;
 
   if (targetId === 'carrot') {
-    playSound(carrot_sound);
+    sound.playCarrot();
     event.target.remove();
     gameScore.innerText = Number(gameScore.textContent) - 1;
     if (Number(gameScore.textContent) === 0) fnStopGame('WIN');
