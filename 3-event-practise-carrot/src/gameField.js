@@ -9,9 +9,11 @@ export default class GameField {
       this.onClick && this.onClick(event);
     });
   }
+
   setClickEventListener(onClick) {
     this.onClick = onClick;
   }
+
   //게임 필드에 당근과 벌레 그리기
   drawCarrotAndBug(carrotCnt, bugCnt) {
     let gameFieldHtml = '';
