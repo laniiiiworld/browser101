@@ -1,9 +1,32 @@
 'use-strict';
 
 import GameField from './gameField.js';
+import { Reason } from './popup.js';
 import * as sound from './sound.js';
 
-export default class Game {
+export default class GameBuilder {
+  withGameDuration(duration) {
+    this.gameDuration = duration;
+    return this;
+  }
+  withCarrotCount(num) {
+    this.carrotCount = num;
+    return this;
+  }
+  withBugCount(num) {
+    this.bugCount = num;
+    return this;
+  }
+  build() {
+    return new Game(
+      this.gameDuration, //
+      this.carrotCount,
+      this.bugCount
+    );
+  }
+}
+
+class Game {
   constructor(gameDurationSec, carrotCnt, bugCnt) {
     this.gameDurationSec = gameDurationSec;
     this.carrotCnt = carrotCnt;
@@ -11,7 +34,7 @@ export default class Game {
 
     this.btnStop = document.querySelector('.btn__stop i');
     this.btnStop.addEventListener('click', () => {
-      this.stop('PAUSE');
+      this.stop(Reason.PAUSE);
     });
     this.gameTimer = document.querySelector('.game__timer');
     this.gameScore = document.querySelector('.game__score');
@@ -28,7 +51,7 @@ export default class Game {
   }
   //게임 시작 준비
   init(msgKey) {
-    if (msgKey === 'LOAD') {
+    if (msgKey === Reason.LOAD) {
       this.showedPopup = true;
     } else {
       this.gameField.drawCarrotAndBug(this.carrotCnt, this.bugCnt);
@@ -45,12 +68,12 @@ export default class Game {
   }
   //게임 멈춤
   stop(msgKey) {
-    if (msgKey === 'PAUSE') {
+    if (msgKey === Reason.PAUSE) {
       this.isPaused = true;
       sound.playAlert();
-    } else if (msgKey === 'LOSE') {
+    } else if (msgKey === Reason.LOSE) {
       sound.playBug();
-    } else if (msgKey === 'WIN') {
+    } else if (msgKey === Reason.WIN) {
       sound.playWin();
     }
     sound.stopBackground();
@@ -76,7 +99,7 @@ export default class Game {
       time--;
       this.setTimer(time);
       if (time < 1) {
-        this.stop('LOSE');
+        this.stop(Reason.LOSE);
       }
     }, 1000);
   }
@@ -94,10 +117,10 @@ export default class Game {
       sound.playCarrot();
       event.target.remove();
       this.gameScore.innerText = Number(this.gameScore.textContent) - 1;
-      if (Number(this.gameScore.textContent) === 0) this.stop('WIN');
+      if (Number(this.gameScore.textContent) === 0) this.stop(Reason.WIN);
     } else if (targetId === 'bug') {
       event.target.remove();
-      this.stop('LOSE');
+      this.stop(Reason.LOSE);
     }
   };
 }

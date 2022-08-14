@@ -1,13 +1,13 @@
 'use-strict';
 
-import Game from './game.js';
-import PopUp from './popup.js';
+import GameBuilder from './game.js';
+import { PopUp, Reason } from './popup.js';
 
-const GAME_DURATION_SEC = 30; //타이머 제한 시간(초)
-const CARROT_CNT = 15;
-const BUG_CNT = 10;
-
-const game = new Game(GAME_DURATION_SEC, CARROT_CNT, BUG_CNT);
+const game = new GameBuilder() //
+  .withGameDuration(30)
+  .withCarrotCount(15)
+  .withBugCount(10)
+  .build();
 const gameStopBanner = new PopUp();
 /***********************************************
  * 이벤트
@@ -30,6 +30,6 @@ gameStopBanner.setClickEventListener(() => {
 
 //load Event
 window.addEventListener('load', () => {
-  game.init('LOAD');
-  gameStopBanner.showWithText('LOAD');
+  game.init(Reason.LOAD);
+  gameStopBanner.showWithText(Reason.LOAD);
 });

@@ -1,8 +1,14 @@
 'use-strict';
 
+export const Reason = Object.freeze({
+  LOAD: 'LOAD',
+  WIN: 'WIN',
+  LOSE: 'LOSE',
+  PAUSE: 'PAUSE',
+});
 const popupMsg = { LOAD: 'Are you ready?', WIN: 'You won!🥳', LOSE: 'You lost.🥲', PAUSE: 'Game stopped.⛔️' };
 
-export default class PopUp {
+export class PopUp {
   constructor() {
     this.popupBackground = document.querySelector('.popup__background');
     this.popup = document.querySelector('.popup');
@@ -16,7 +22,7 @@ export default class PopUp {
     this.onClick = onClick;
   }
   showWithText(msgKey) {
-    if (msgKey === 'WIN' || msgKey === 'LOSE') {
+    if (msgKey === Reason.WIN || msgKey === Reason.LOSE) {
       this.btnPlay.classList.remove('.fa-play');
       this.btnPlay.classList.add('.fa-reply');
     } else {
