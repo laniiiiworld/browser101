@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAF(Request Animation Frame)</title>
+    <style>
+      button {
+        font-size: 24px;
+        margin: 10px;
+      }
+      button:hover {
+        background-color: blanchedalmond;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button>Request Animation Frame</button>
+    <script>
+      const button = document.querySelector('button');
+
+      function changeBodyColor(color) {
+        document.body.style.backgroundColor = `${color}`;
+      }
+
+      button.addEventListener('click', () => {
+        requestAnimationFrame(() => changeBodyColor('red'));
+        requestAnimationFrame(() => changeBodyColor('orange'));
+        requestAnimationFrame(() => changeBodyColor('yellow'));
+      });
+    </script>
+  </body>
+</html>

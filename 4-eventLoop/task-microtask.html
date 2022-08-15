@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Queue와 MicroTask Queue</title>
+    <style>
+      button {
+        font-size: 24px;
+        margin: 10px;
+      }
+      button:hover {
+        background-color: blanchedalmond;
+        cursor: pointer;
+      }
+      .textBox1,
+      .textBox2 {
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <button class="button1">❗️while(true)❗️</button><br />
+    <button class="button2">Continue with setTimeout</button><span class="textBox1">setTimeout</span><br />
+    <button class="button3">❗️Continue with promise❗️</button><span class="textBox2">Promise</span><br />
+    <script>
+      const button1 = document.querySelector('.button1');
+      const button2 = document.querySelector('.button2');
+      const button3 = document.querySelector('.button3');
+      const textBox1 = document.querySelector('.textBox1');
+      const textBox2 = document.querySelector('.textBox2');
+
+      function handleClick1(color) {
+        textBox1.style.color = color;
+        color = color === 'red' ? 'blue' : 'red';
+        setTimeout(() => handleClick1(color), 1000);
+      }
+      function handleClick2(color) {
+        console.log('Continue with promise');
+        textBox2.style.color = color;
+        color = color === 'red' ? 'blue' : 'red';
+        Promise.resolve(0).then(() => handleClick2(color));
+      }
+      //❗️while(true)
+      button1.addEventListener('click', () => {
+        while (true) {
+          //never ending call stack😱
+          console.log('while(true)');
+        }
+      });
+
+      //❗️Task Queue, Continue with setTimeout
+      button2.addEventListener('click', () => handleClick1('red'));
+
+      //❗️MicroTask Queue, Continue with promise
+      button3.addEventListener('click', () => handleClick2('red'));
+    </script>
+  </body>
+</html>
