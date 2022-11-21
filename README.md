@@ -1,21 +1,46 @@
 # browser101
+
 드림코딩 아카데미 강의노트 정리 공간 (브라우저, Web APIs, DOM, 이벤트, Event Loop 등)
 
-## 새롭게 알게 된 내용:bulb:
-### :infinity: Event Loop
+### 실전 프로젝트 & 중요 개념
 
-- 이번 강의에서는 마지막에 배운 Event Loop가 가장 인상깊다.
-  Event Loop에 기반하여 Call Stack, Render, MicroTask Queue, Task Queue 등을 순회하며 이벤트가 어떤 방식으로 처리되는지를 알게되었다. 이젠 같은 무한루프처럼 보여도 setTimeout()의 콜백은 화면이 멈추지 않는 이유를 설명할 수 있다.
-  개발자도구에서는 Watch, BreakPoints만 사용해왔는데, 이번 기회에 Scope와 Call Stack을 알게되었다. 복잡한 소스를 만나게 되더라도 당당히 개발자 도구를 열고 호출했던 함수와 접근 가능한 변수 등을 확인하며 이슈를 파악해 볼 수 있게 되어 기쁘다.
+- 좌표 007 : https://github.com/laniiiiworld/browser101/tree/main/1-webAPIs-practise-007
+  - 관련 내용 : Web APIs, 브라우저 좌표, 브라우저 렌더링
+- 토끼를 찾아라 : https://github.com/laniiiiworld/browser101/tree/main/1-webAPIs-practise-rabbits
+  - 관련 내용 : Web APIs, 윈도우 스크롤링
+- 쇼핑 목록앱 : https://github.com/laniiiiworld/browser101/tree/main/2-dom-practise-todo-list
+  - 관련 내용 : DOM, 이벤트, 이벤트 Bubbling & capturing, 이벤트 위임, Keyup과 keydown, Web Form
+- 게임 만들기(당근을 찾아라) : https://github.com/laniiiiworld/browser101/tree/main/3-event-practise-carrot
+  - 관련 내용 : 리팩토링, 모듈화, 빌더 패턴, 자바스크립트로 타입 보장 하는법
+- Event Loop : https://github.com/laniiiiworld/browser101/tree/main/4-eventLoop
+  - 프로세스와 쓰레드
+  - 자바스크립트 런타임 환경
+    - MultiThreading처럼 구현이 가능한 이유
+    - 자바스크립트 엔진, Memory Heap, Call Stack
+  - 브라우저 런타임 환경
+    - Render(RAF,Render Tree, Layout, Paint)
+    - Microtask queue와 Task queue
+    - 브라우저가 죽는 경우 VS 죽지 않는 경우(while, setTimeout, Promise)
 
-### :art: 중요 렌더링 경로 (Critical Rendering Path)
+### 새롭게 알게 된 내용
 
-- 개인 프로젝트로 유튜브 클론코딩을 하며 화면에 그려지는 속도가 느려 고민이 많았다. CRP를 배우고 내 프로젝트의 Layers가 너무 큰 단위로 그려지고 있다는 것을 알게 되었다. 또한 Perfomance 탭을 확인하며 내가 고려하지 못한 부분을 찾아낼 수 있게 되었다. 이벤트가 발생할 때마다 layout부터 다시 그려지는 일이 없도록 개인 프로젝트를 수정하여 속도이슈를 해결해봐야겠다.
+- Event Loop
 
-### :sparkles: 리팩토링
+  - Event Loop에 기반하여 Call Stack, Render, MicroTask Queue, Task Queue 등을 순회하며 이벤트가 처리되는 방식
+  - 무한루프처럼 보여도 setTimeout()의 콜백은 화면이 멈추지 않는 이유
+  - 개발자도구에서 Scope와 Call Stack을 보는 방법
 
-- 강의를 수강하며 제한 시간 안에 당근을 찾는 게임을 만들어 보았다. 완성 후 리팩토링 강의를 들으며 모듈화를 해보게 되었는데, 이점이 너무 좋았다. 평소 객체지향적으로 코딩하려 해도 익숙하지 않아 헤맸는데, 이번 기회에 게임 필드, 팝업 등을 클래스로 만들어 기능을 나누며 모듈화하는 연습이 되었다.
+- 중요 렌더링 경로 (Critical Rendering Path)
 
-## 수강한 강의
+  - 개발자도구 Layers 탭과 Perfomance 탭 사용법
+  - layout부터 다시 그려지는 CSS 속성을 고려해야 하는 이유
+  - [CSS Triggers](https://www.lmame-geek.com/css-triggers/)
 
-드림코딩 아카데미 : https://academy.dream-coding.com/courses/browser101
+- 리팩토링
+
+  - 코드의 재사용성을 고려한 모듈화
+  - 빌더 패턴의 사용법
+
+### 수강한 강의
+
+- 드림코딩 아카데미 : https://academy.dream-coding.com/courses/browser101
